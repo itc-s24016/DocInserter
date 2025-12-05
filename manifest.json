@@ -1,6 +1,6 @@
 {
   "name": "DocInserter",
-  "version": "2.0.3",
+  "version": "3.0.3",
   "manifest_version": 3,
   "description": "選択範囲をGoogleドキュメントへ整理して挿入する拡張機能です",
   "permissions": [
@@ -20,5 +20,19 @@
   "content_scripts": [{
     "matches": ["https://docs.google.com/*"],
     "js": ["content.js"]
-  }]
+  }],
+  "commands": {
+    "add_h1": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+1"
+      },
+      "description": "選択テキストを見出し1として追加"
+    },
+    "add_description": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+2"
+      },
+      "description": "選択テキストを説明として追加"
+    }
+  }
 }

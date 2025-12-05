@@ -1,31 +1,25 @@
-chrome.runtime.onInstalled.addListener(() => {
-    chrome.contextMenus.create({
-        id: "docInserter",
-        title: "DocInserter",
-        contexts: ["selection"]
-    });
+chrome.commands.onCommand.addListener(async (command) => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    chrome.contextMenus.create({
-        id: "addH1",
-        parentId: "docInserter",
-        title: "見出し1として追加",
-        contexts: ["selection"]
-    });
+    // Google Docs 以外では実行しない
+    if (!tab || !tab.url.includes("https://docs.google.com/")) return;
 
-    chrome.contextMenus.create({
-        id: "addDescription",
-        parentId: "docInserter",
-        title: "説明として追加",
-        contexts: ["selection"]
-    });
-});
+    // 選択テキスト取得（content script に依頼）
+    const selection = await chrome.tabs.sendMessage(tab.id, { type: "GET_SELECTION" });
 
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-    if (!info.selectionText) return;
+    if (!selection || !selection.text) return;
 
-    // content.js に送る
-    chrome.tabs.sendMessage(tab.id, {
-        type: info.menuItemId === "addH1" ? "ADD_H1" : "ADD_DESCRIPTION",
-        text: info.selectionText
-    });
+    if (command === "add_h1") {
+        chrome.tabs.sendMessage(tab.id, {
+            type: "ADD_H1",
+            text: selection.text
+        });
+    }
+
+    if (command === "add_description") {
+        chrome.tabs.sendMessage(tab.id, {
+            type: "ADD_DESCRIPTION",
+            text: selection.text
+        });
+    }
 });
