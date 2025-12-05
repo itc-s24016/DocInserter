@@ -25,11 +25,13 @@ chrome.runtime.onMessage.addListener(async (msg) => {
 
 async function insertAsH1(text) {
     console.log("[DocInserter] 見出し1を追加:", text);
+    alert("H1 受信: " + text);
     // ここで今日の日付のドキュメントを検索し、
     // 無ければ自動生成してH1として追加する流れを実装する。
 }
 
 async function insertAsDescription(text) {
     console.log("[DocInserter] 説明を追加:", text);
+    alert("説明 受信: " + text);
     // ここでヘッダー一覧取得 → 選択UI → 説明追記の流れを実装する。
 }
