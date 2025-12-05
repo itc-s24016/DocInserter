@@ -1,6 +1,6 @@
 {
   "name": "DocInserter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 3,
   "description": "選択したテキストをGoogleドキュメントに整理して挿入する拡張機能です",
   "permissions": [
